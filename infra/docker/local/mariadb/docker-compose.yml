@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  db:
+    container_name: portfolio_db
+    image: mariadb:10.4
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./db/conf.d:/etc/mysql/conf.d
+      - /etc/localtime:/etc/localtime:ro
+      - mariadb_data:/var/lib/mysql
+    environment:
+      TZ: Asia/Seoul
+      MARIADB_DATABASE: portfolio
+      MARIADB_USER: jsh
+      MARIADB_PASSWORD: wjdtjd1787!
+      MARIADB_ROOT_PASSWORD: wjdtjd1787!
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    networks:
+      - infra
+    restart: unless-stopped # 수동 종료 전까지 자동 시작
+
+networks:
+  infra:
+    driver: bridge
+
+volumes:
+  mariadb_data:
